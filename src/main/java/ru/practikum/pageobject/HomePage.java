@@ -9,72 +9,33 @@ import java.time.Duration;
 
 public class HomePage {
     private WebDriver driver;
-    private String MAIN_PAGE_URL = "https://qa-scooter.praktikum-services.ru/";
-    // Добавляем ЛОКАТОРЫ вопросов и ответов
-    private By questionOne = By.xpath(".//div[text()='Сколько это стоит? И как оплатить?']");
-    private By answerOne = By.xpath(".//div[@id='accordion__panel-0']/p");
-    private By questionFive = By.xpath(".//div[@id='accordion__heading-4']");
-    private By answerFive = By.xpath(".//div[@id='accordion__panel-4']/p");
-
-    // Добавляем ЛОКАТОР кнопки "Заказать" (вверху страницы)
-    private By upOrderButton = By.xpath(".//*[@class='Button_Button__ra12g']");
-
-    // Добавляем ЛОКАТОР кнопки "Заказать" (внизу страницы)
-    private By downOrderButton = By.xpath(".//*[@class='Button_Button__ra12g Button_Middle__1CSJM']");
-
+    private static final String MAIN_PAGE_URL = "https://qa-scooter.praktikum-services.ru/";
     // Добавляем конструктор класса
     public HomePage(WebDriver driver) {
         this.driver = driver;
     }
-
-
-    // БЛОК МЕТОДОВ: //
+                                                        // БЛОК МЕТОДОВ: //
     // Открыть главную страницу приложения
     public void openMainPage() {
         driver.get(MAIN_PAGE_URL);
     }
-
-    // Метод "Нажать на вопрос № 1"
-    public void clickQuestionOne() {
+    // Общий метод нажатия на кнопку "Заказать"
+    public void clickToOrderButton(By orderButton) {
         // Найди Элемент
-        WebElement element = driver.findElement(questionOne);
+        WebElement element = driver.findElement(orderButton);
         // Прокрути страницу до элемента
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();",element);
         // Дождаться элемент и нажать на него
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(questionOne));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(questionOne));
-        driver.findElement(questionOne).click();
+        wait.until(ExpectedConditions.elementToBeClickable(orderButton));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(orderButton));
+        driver.findElement(orderButton).click();
     }
-
-    // Метод "Нажать на вопрос № 5"
-    public void clickQuestionFive() {
-        // Найди Элемент
-        WebElement element = driver.findElement(questionFive);
-        // Прокрути страницу до элемента
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();",element);
-        // Дождаться элемент и нажать на него
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(questionFive));
-        driver.findElement(questionFive).click();
-    }
-
-    // Метод "Нажать на верхнюю кнопку Заказать"
-    public void clickUpOrder() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(upOrderButton));
-        driver.findElement(upOrderButton).click();
-    }
-
-    // Метод "Нажать на нижнюю кнопку Заказать" + скролл
-    public void clickDownOrder() {
-        // Найди Элемент
-        WebElement element = driver.findElement(downOrderButton);
-        // Прокрути страницу до элемента
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();",element);
-        // Дождаться элемент и нажать на него
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(downOrderButton));
-        driver.findElement(downOrderButton).click();
+    // Клик на вопрос
+    public void clickToQuestion(By question) {
+        WebElement element = driver.findElement(question);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
+        element.isEnabled();
+        element.click();
     }
 }
